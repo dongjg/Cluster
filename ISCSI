@@ -15,7 +15,7 @@
    6、
    7、
 ####################################################################################################   
-编写udev规则
+udev规则分类
   devfs
     -早期Linux采用的静态管理方法
     -/dev目录下有大量静态文件
@@ -23,8 +23,8 @@
     -主、次设备编号杂多
   udev
     -只有连接到系统上的设备才在/dev下创建设备文件
-    
-接入设备事件链
+ #########################################################################   
+接入设备事件链顺序：
   1、内核发现设备导入设备状态到sys
   2、udev接到事件通知
   3、udev创建设备节点
@@ -33,7 +33,7 @@
   6、HAL创建设备对象结构
   7、HAL通过系统消息总线广播该事件
   8、用户程序也可以监控该事件
-  
+ ####################################################################### 
 udev的作用
   从内核收到添加/移除硬件事件时，udev将会分析：
     -/sys目录下信息
@@ -50,44 +50,38 @@ udev的作用
     # udevadm info --query=path --name=/dev/sda
     # udevadm info --query=property --path=/block/sda
     # udevadm info --query=all --attribute-walk --path=/block/sda
-2、编写udev规则文件
-    #
+2、编写udev规则文件,文件中的变量都是需要根据实际情况而修改的！！！
+    #vim  /etc/udev/rules.d/70-usb.rules
+        SUBSYSTEMS=="usb",ATTRS{manufacturer}=="TOSHIBA",ATTRS{serial}=="60A44CB4665EEE4133500001",
+        RUN+="/usr/bin/wall udisk plugged in"         //实现给分区命名
    
+        ACTION=="add",ENV{ID_VENDOR}=="TOSHIBA",ENV{DEVTYPE}=="partition",ENV{ID_SERIAL_SHORT}==
+        "60A44CB4665EEE4133500001",SYMLINK="usb%n",OWNER="root",GROUP="root",MODE="0644"
+                                        //修改设备所有者和权限 “MODE”权限
+        ACTION=="add",ENV{ID_VENDOR}=="TOSHIBA",ENV{ID_SERIAL_SHORT}=="60A44CB4665EEE4133500001",
+        RUN+="/usr/bin/systemctl start httpd"         //插U盘启动httpd服务
+        
+        ACTION=="remove",ENV{ID_VENDOR}=="TOSHIBA",ENV{ID_SERIAL_SHORT}=="60A44CB4665EEE4133500001",
+        RUN+="/usr/bin/systemctl stop httpd"          //插U盘停止httpd服务
    
+  3、udev常见指令操作符
+          ==              匹配
+          !=              不匹配
+          =               赋值
+          +=              添加新值
+          :=              赋值，且不允许被替换
+          NAME=“ ”        定义设备名称
+          SYMLINK+=“ ”    定义设备别名
+          OWNER=“ ”       定义设备所有者
+          GROUP=“ ”       定义设备所属组
+          MODE=“ ”        定义设备权限
+          ACTION=“ ”      判断设备的操作动作（添加或移除）
+          KERNEL=“ ”      判断设备的内核名称
+          RUN+=“程序”      为设备添加运行程序
    
+  4、udev常用替代变量
+      %k：内核识别的设备名称，如sdb1
+      %n：设备的内核编号，如sda3中的3
+      %p：设备路径，如/sys/block/sdb/sdb1
+      %%：%符号本身
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-  
-      
-    
-                    
-             
-             
