@@ -44,8 +44,14 @@ udev的作用
     -决定如何设置属性（权限）
     -决定触发某些事件（程序）
     
-
-   
+1、查看加载设备的相关属性（这条命令必须是设备加载前运行）
+    #udevadm monitor --property
+   如果设备已经加载则无法使用monitor查看相关属性，可以使用下面的命令查看设备属性。
+    # udevadm info --query=path --name=/dev/sda
+    # udevadm info --query=property --path=/block/sda
+    # udevadm info --query=all --attribute-walk --path=/block/sda
+2、编写udev规则文件
+    #
    
    
    
