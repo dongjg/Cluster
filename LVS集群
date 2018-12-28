@@ -83,9 +83,53 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
         #ipvsadm-save -n > /etc/sysconfig/ipvsadm
     3、客户端测试
         #curl http://192.168.4.5
+八、部署LVS-DR集群
+    1、为了防止地址冲突，VIP必须在网卡上配置虚拟接口，即代理服务器的VIP和DIP配置在一个网卡上
+      #cd /etc/sysconfig/network-scripts/
+      #cp ifcfg-eth0{,:0}
+      #vim ifcfg-eth0:0
+#######################################################################
+        TYPE=Ethernet               //网络类型
+        BOOTPROTO=none              //获取ip方式，none代表手动
+        DEFROUTE=yes                //是否开启默认路由
+        NAME=eth0:0                 //网卡名
+        DEVICE=eth0:0               //设备名
+        ONBOOT=yes                  //是否开机自起
+        IPADDR=192.168.4.15         //ip地址
+        PREFIX=24                   //指明子网掩码的长度
+#########################################################################
+      #systemctl restart network
+    2、设置web服务器参数
        
-       
-       
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
        
        
        
