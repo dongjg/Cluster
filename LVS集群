@@ -100,8 +100,22 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
 #########################################################################
       #systemctl restart network
     2、设置web服务器参数
-       
- 
+        #nmcli connection modify eth0 ipv4.method manual \
+         ipv4.addresses 192.168.4.100/24 connection.autoconnect yes
+        # nmcli connection up eth0
+       web服务器eth0上配好ip后，需要给web服务器配置VIP地址
+        #cd /etc/sysconfig/network-scripts/
+        #cp ifcfg-lo{,:0}
+        #vim ifcfg-lo:0
+####################################################################
+          DEVICE=lo:0
+          IPADDR=192.168.4.15
+          NETMASK=255.255.255.255
+          NETWORK=192.168.4.15
+          BROADCAST=192.168.4.15
+          ONBOOT=yes
+          NAME=lo:0
+#####################################################################
  
  
  
