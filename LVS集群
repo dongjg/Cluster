@@ -64,7 +64,24 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
             //-g    DR模式
             //-i    TUN模式
             //-m    NAT模式
-        #ipvsadm-save -n > /etc/sysconfig/ipvsadm       //永久保存所有规则      
+        #ipvsadm-save -n > /etc/sysconfig/ipvsadm       //永久保存所有规则  
+七、部署LVS-NAT集群
+    1、配置web服务器，随意写个测试页面nginx或http
+    2、部署LVS-NAT模式调度器
+      1）开启调度器的路由转发功能
+        #echo 1 > /proc/sys/net/ipv4/ip_forward     //临时修改
+        #echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf     //永久修改
+      2）创建集群服务器
+        #yum -y install ipvsadm
+        #ipvsadm -A -t 192.168.4.5:80 -s mrr
+      3)添加真实服务器
+        #ipvsadm -a -t 192.168.4.5:80 -r 192.168.2.100 -m
+        #ipvsadm -a -t 192.168.4.5:80 -r 192.168.2.200 -m
+      4)查看规则列表
+        #ipvsadm -Ln
+        #ipvsadm-save -n > /etc/sysconfig/ipvsadm
+    3、客户端测试
+        #curl http://192.168.4.5
        
        
        
