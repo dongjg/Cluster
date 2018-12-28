@@ -8,6 +8,7 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
       lc 最少连接算法
       wlc 加权的最少连接算法
       lblc 基于局部的最小连接
+      sh  源地址散列
 一、集群的目的
     1、提高性能
     2、降低成本
@@ -46,7 +47,7 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
 六、ipvsadm命令格式
     如果使用ipvsadmin命令，需先下载ipvsadm
       #yum -y install ipvsadm
-    ipvsadmin命令选项：
+    1、ipvsadmin命令选项：
        ipvsadm -A     //添加虚拟服务器
        ipvsadm -E     //修改虚拟服务器
        ipvsadm -D     //删除虚拟服务器
@@ -56,8 +57,14 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
        ipvsadm -d     //删除真实服务器
        ipvsadm -Ln    //查看LVS规则表,以数字的形式显示
        ipvsadm -s     //指定集群算法
-
-       
+        
+    2、ipvsadm语法案例
+        #ipvsadm -a -t|u 192.168.1.1:80 -r 192.168.2.1 [-g|i|m] [-w 权重]
+            //-t|u  基于tcp或udp
+            //-g    DR模式
+            //-i    TUN模式
+            //-m    NAT模式
+        #ipvsadm-save -n > /etc/sysconfig/ipvsadm       //永久保存所有规则      
        
        
        
