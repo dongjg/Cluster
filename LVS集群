@@ -1,6 +1,13 @@
 LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工作在OSI模型的四层。
   集成到内核，性能特别高
   任务调度是集群系统中的核心技术
+  算法时调度器的核心，可以man ipvsadm查看
+    常用算法：
+      rr  轮询
+      wrr 加权轮询
+      lc 最少连接算法
+      wlc 加权的最少连接算法
+      lblc 基于局部的最小连接
 一、集群的目的
     1、提高性能
     2、降低成本
@@ -27,3 +34,45 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
     4、RIP：真实IP地址
         集群节点上使用的IP地址
     5、DIP：调度器连接节点服务器的IP地址
+五、LVS工作模式
+    1、NAT模式
+        -通过网络地址转换实现的虚拟服务器
+        -大并发访问时，调度器的性能成为瓶颈
+    2、DR模式
+        -直接使用路由技术实现虚拟服务器
+        -节点服务器需要配置VIP，注意MAC地址广播
+    3、TUN模式
+        -隧道方式实现虚拟服务器，访问速度降低
+六、ipvsadm命令格式
+    如果使用ipvsadmin命令，需先下载ipvsadm
+      #yum -y install ipvsadm
+    ipvsadmin命令选项：
+       ipvsadm -A     //添加虚拟服务器
+       ipvsadm -E     //修改虚拟服务器
+       ipvsadm -D     //删除虚拟服务器
+       ipvsadm -C     //清空所有集群
+       ipvsadm -a     //添加真实服务器
+       ipvsadm -e     //修改真实服务器
+       ipvsadm -d     //删除真实服务器
+       ipvsadm -Ln    //查看LVS规则表,以数字的形式显示
+       ipvsadm -s     //指定集群算法
+
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+      
