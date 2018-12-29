@@ -156,5 +156,5 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
         sleep 60
       done
       当然这个脚本还可以优化，本例只有两个web服务器。
-      测试脚本方法：ping、curl、MD5
+      测试脚本方法：ping、curl、MD5sum
       
