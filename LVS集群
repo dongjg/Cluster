@@ -146,7 +146,7 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
       do
         for i in 100 200
         do
-            ping -c 5 -i 0.3 192.168.2.$i &> /dev/null
+            curl http://192.168.4.$i &> /dev/null
             if [ $? -ne 0 ];then
                 ipvsadm -Ln | grep 192.168.4.$i && ipvsadm -d -t 192.168.4.15:80 -r 192.168.4.$i -g
             else
@@ -156,4 +156,5 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
         sleep 60
       done
       当然这个脚本还可以优化，本例只有两个web服务器。
+      测试脚本方法：ping、curl、MD5
       
