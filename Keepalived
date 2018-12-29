@@ -42,7 +42,21 @@
   5、测试
     #ip addr show
 四、Keepalived+LVS服务器
-  
+  1、健康检查的方式
+    -TCP_CHECK：工作在OSI模型中的四层，检查端口号
+    -HTTP-GET：以URL方式访问HTTP，用返回页面的MD5值和配置文件中设置的MD5值比较，判断web服务器是否正常
+    -SSL-GET：和HTTP_GET相似,以SSL方式连接
+  2、搭建
+  3、
+  4、
+五、配置HAProxy负载均衡集群（代理、调度器）
+  -免费、快速、可靠的一种解决方案
+  -提高高可用性、负载均衡，基于TCP和HTTP的应用代理
+  -适用于负载特大的web站点，需要工作在七层
+  性能：
+  LVS(调度器)>HaProxy（代理、调度器【四层、七层】）>nginx(代理、调度器)
+  付费软件：F5 big-ip
+  安装软件文档都在/usr/share/doc/目录下
     
     
     
