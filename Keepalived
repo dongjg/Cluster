@@ -22,19 +22,27 @@
               router_id  web1                              //设置路由ID号（实验需要修改）
             }
           vrrp_instance VI_1 {
-              state MASTER                         //主服务器为MASTER（备服务器需要修改为BACKUP）
-              interface eth0                    //定义网络接口
-              virtual_router_id 50                //主备服务器VRID号必须一致
-              priority 100                     //服务器优先级,优先级高优先获取VIP（实验需要修改）
+              state MASTER                                  //主服务器为MASTER（备服务器需要修改为BACKUP）
+              interface eth0                                //定义网络接口
+              virtual_router_id 50                          //主备服务器VRID号必须一致
+              priority 100                                  //服务器优先级,优先级高优先获取VIP（实验需要修改）
               advert_int 1
               authentication {
                       auth_type pass
-                      auth_pass 1111                       //主备服务器密码必须一致
+                      auth_pass 1111                        //主备服务器密码必须一致（默认）
                   }
-              virtual_ipaddress { 192.168.4.80  }    //谁是主服务器谁获得该VIP（实验需要修改）
+              virtual_ipaddress { 192.168.4.80  }           //谁是主服务器谁获得该VIP（实验需要修改）
           }
-    
-    
+################################################################################### 
+  3、启动服务
+    #systemctl start keepalived
+  4、注意：启动keepalived会自动添加一个drop的防火墙规则，需要清空！
+    #iptables -F
+    # setenforce 0
+  5、测试
+    #ip addr show
+四、Keepalived+LVS服务器
+  
     
     
     
