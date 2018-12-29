@@ -148,11 +148,12 @@ LVS（Linux Virtual Server）是一个虚拟的服务器集群系统，只能工
         do
             ping -c 5 -i 0.3 192.168.2.$i > /dev/null
             if [ $? -ne 0 ];then
-                ipvsadm -d -t 192.168.4.15:80 -r 192.168.4.$i -g
+                ipvsadm -Ln | grep 192.168.4.$i && ipvsadm -d -t 192.168.4.15:80 -r 192.168.4.$i -g
             else
-                ipvsadm -a -t 192.168.4.15:80 -r 192.168.4.$i -g
+                ipvsadm -Ln | grep 192.168.4.$i || ipvsadm -a -t 192.168.4.15:80 -r 192.168.4.$i -g
             fi
         done
-         sleep 60
+        sleep 60
       done
+      
       
